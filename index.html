@@ -8,7 +8,9 @@
 
 <body>
   <h4>辨識的文字會顯示在下方選單：</h4>
-  <h1 id="show"></h1>
+  <select id="select"></select>
+  <button onclick="start()">Click to Speak</button>
+
   <script type="text/javascript">
       var recognition = new SpeechRecognition();
       recognition.continuous=true;
@@ -36,9 +38,7 @@
           select.options.length = 0;
           recognition.start();
       }
-  </script>
-  <select id="select"></select>
-  <button onclick="start()">Click to Speak</button>
+  </script>  
 </body>
 
 </html>
