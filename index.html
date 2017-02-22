@@ -12,7 +12,7 @@
   <button onclick="start()">Click to Speak</button>
 
   <script type="text/javascript">
-      var recognition = new webkitSpeechRecognition()();
+      var recognition = new webkitSpeechRecognition();
       recognition.continuous=true;
       recognition.interimResults=true;
       recognition.lang="cmn-Hant-TW";
