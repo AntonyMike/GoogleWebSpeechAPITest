@@ -40,7 +40,7 @@
                 }
             } else if (len > 1) {
                 for (var i = 0; i < len; i++) {
-                    document.getElementById("spSelect").innerHTML = " + " + "<select id='select" + (i + 2) + "'>" + "</select>";
+                    document.getElementById("spSelect").innerHTML += " + " + "<select id='select" + (i + 2) + "'>" + "</select>";
                     for (var j = 0; j < event.results[i].length; j++) {
                         var text = event.results[i][j].transcript;
                         document.getElementById('select' + (i + 2)).options[j] = new Option(text, text);
@@ -48,14 +48,6 @@
                 }
             }
         }
-
-        //        function creatSelect(index, len, value) {
-        //            for (var i = 0; i < index; i++) {
-        //                document.getElementById("spSelect").innerHTML("<select id='select" + (i + 1) + "'>" + "</select>");
-        //                for (var j = 0; j < len; j++)
-        //                    document.getElementById('select' + i).options[j] = new Option(value, value);
-        //            }
-        //        }
 
         function reset() {
             recognition.stop();
