@@ -25,6 +25,7 @@
         }
         recognition.onend = function() {
             console.log('停止辨識!');
+            reset
         };
         recognition.maxAlternatives = 10;
         recognition.onresult = function(event) {
@@ -43,9 +44,10 @@
             }
         }
 
-        function stop() {
+        function reset() {
             recognition.stop();
             recognizing = false;
+            document.getElementById('btnState').innerHTML = "開始辨識";
         }
 
         function start() {
@@ -60,8 +62,7 @@
                 start();
                 elem.innerHTML = "停止辨識";
             } else {
-                stop();
-                elem.innerHTML = "開始辨識";
+                reset(); 
             }
         }
 
