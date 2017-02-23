@@ -15,6 +15,7 @@
     <span id="spSelect"></span>
 
     <script type="text/javascript">
+        var recognizing;
         var recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
@@ -28,7 +29,8 @@
         recognition.maxAlternatives = 10;
         recognition.onresult = function(event) {
             var len = event.results.length;
-            if (len == 1) {
+            if (len > 0) {
+//                if (len == 1) {
                 if (event.results.length > 0) {
                     document.getElementById("spSelect").innerHTML("<select id='select1'>" + "</select>");
                     var result = event.results[0];
@@ -37,15 +39,16 @@
                         document.getElementById("select1").options[i] = new Option(text, text);
                     }
                 }
-            } else if (len > 1) {
-                for (var i = 0; i < len; i++) {
-                    document.getElementById("spSelect").innerHTML(" \+ " + "<select id='select" + (i + 2) + "'>" + "</select>");
-                    for (var j = 0; j < event.results[i].length; j++) {
-                        var text = event.results[i][j].transcript;
-                        document.getElementById('select' + (i + 2)).options[j] = new Option(text, text);
-                    }
-                }
-            }
+            } 
+//            else if (len > 1) {
+//                for (var i = 0; i < len; i++) {
+//                    document.getElementById("spSelect").innerHTML(" + " + "<select id='select" + (i + 2) + "'>" + "</select>");
+//                    for (var j = 0; j < event.results[i].length; j++) {
+//                        var text = event.results[i][j].transcript;
+//                        document.getElementById('select' + (i + 2)).options[j] = new Option(text, text);
+//                    }
+//                }
+//            }
         }
 
         //        function creatSelect(index, len, value) {
@@ -57,12 +60,14 @@
         //        }
 
         function reset() {
+            recognition.stop();
             recognizing = false;
         }
 
         function start() {
-//             select.options.length = 0;
+//            select.options.length = 0;
             recognition.start();
+            recognizing = true;
         }
 
         function btnClick() {
