@@ -2,43 +2,61 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Google Web Speech API Test </title>
+    <meta charset="UTF-8">
+    <title>Google Web Speech API Test </title>
 </head>
 
 <body>
-  <h4>辨識的文字會顯示在下方選單：</h4>
-  <select id="select"></select>
-  <button onclick="start()">Click to Speak</button>
+    <h4>辨識的文字會顯示在下方選單：</h4>
+    <select id="select"></select>
+    <button id="button" onclick="btnClick();">開始辨識</button>
+    <script type="text/javascript">
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "cmn-Hant-TW";
+        recognition.onstart = function () {
+            console.log('開始辨識...');
+        };
+        recognition.onend = function () {
+            console.log('停止辨識!');
+        };
+        recognition.maxAlternatives = 10;
+        recognition.onresult = function (event) {
+            if (event.results.length > 0) {
+                var result = event.results[0];
+                for (var i = 0; i < result.length; ++i) {
+                    var text = result[i].transcript;
+                    select.options[i] = new Option(text, text);
+                }
+            }
+        }
 
-  <script type="text/javascript">
-      var recognition = new webkitSpeechRecognition();
-      recognition.continuous=true;
-      recognition.interimResults=true;
-      recognition.lang="cmn-Hant-TW";
+        function reset() {
+            recognizing = false;
+            button.innerHTML = "開始辨識";
+            var length = select.options.length;
+            for (i = 0; i < length; i++) {
+                select.options[i] = null;
+            }
+        }
 
-      recognition.onstart=function(){
-        console.log('開始辨識...');
-      };
-      recognition.onend=function(){
-        console.log('停止辨識!');
-      };
-      recognition.maxAlternatives = 10;
-      recognition.onresult = function (event) {
-          if (event.results.length > 0) {
-              var result = event.results[0];
-              for (var i = 0; i < result.length; ++i) {
-                  var text = result[i].transcript;
-                  select.options[i] = new Option(text, text);
-              }
-          }
-      }
+        function start() {
+            select.options.length = 0;
+            recognition.start();
+            button.innerHTML = "停止辨識";
+        }
 
-      function start() {
-          select.options.length = 0;
-          recognition.start();
-      }
-  </script>  
+        function btnClick() {
+            var elem = document.getElementById('button');
+            var txt = elem.textContent || elem.innerText;
+            if (txt == "開始辨識") {
+                start();
+            } else {
+                reset();
+            }
+        }
+    </script>
 </body>
 
 </html>
