@@ -7,55 +7,84 @@
 </head>
 
 <body>
+
+    <button id="btnState" onclick="btnClick();">開始辨識</button>
+    <button id="btnClearLast" onclick="clearLast()">清除最後一項</button>
+    <button id="btnClearAll" onclick="clearAll()">全部清除</button>
     <h4>辨識的文字會顯示在下方選單：</h4>
-    <select id="select"></select>
-    <button id="button" onclick="btnClick();">開始辨識</button>
+    <span id="spSelect"></span>
+
     <script type="text/javascript">
         var recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
         recognition.interimResults = true;
         recognition.lang = "cmn-Hant-TW";
-        recognition.onstart = function () {
+        recognition.onstart = function() {
             console.log('開始辨識...');
-        };
-        recognition.onend = function () {
+        }
+        recognition.onend = function() {
             console.log('停止辨識!');
         };
         recognition.maxAlternatives = 10;
-        recognition.onresult = function (event) {
-            if (event.results.length > 0) {
-                var result = event.results[0];
-                for (var i = 0; i < result.length; ++i) {
-                    var text = result[i].transcript;
-                    select.options[i] = new Option(text, text);
+        recognition.onresult = function(event) {
+            var len = event.results.length;
+            if (len == 1) {
+                if (event.results.length > 0) {
+                    document.getElementById("spSelect").innerHTML("<select id='select1'>" + "</select>");
+                    var result = event.results[0];
+                    for (var i = 0; i < result.length; ++i) {
+                        var text = result[i].transcript;
+                        document.getElementById("select1").options[i] = new Option(text, text);
+                    }
+                }
+            } else if (len > 1) {
+                for (var i = 0; i < len; i++) {
+                    document.getElementById("spSelect").innerHTML(" \+ " + "<select id='select" + (i + 2) + "'>" + "</select>");
+                    for (var j = 0; j < event.results[i].length; j++) {
+                        var text = event.results[i][j].transcript;
+                        document.getElementById('select' + (i + 2)).options[j] = new Option(text, text);
+                    }
                 }
             }
         }
 
+        //        function creatSelect(index, len, value) {
+        //            for (var i = 0; i < index; i++) {
+        //                document.getElementById("spSelect").innerHTML("<select id='select" + (i + 1) + "'>" + "</select>");
+        //                for (var j = 0; j < len; j++)
+        //                    document.getElementById('select' + i).options[j] = new Option(value, value);
+        //            }
+        //        }
+
         function reset() {
             recognizing = false;
-            button.innerHTML = "開始辨識";
-            var length = select.options.length;
-            for (i = 0; i < length; i++) {
-                select.options[i] = null;
-            }
         }
 
         function start() {
             select.options.length = 0;
             recognition.start();
-            button.innerHTML = "停止辨識";
         }
 
         function btnClick() {
-            var elem = document.getElementById('button');
+            var elem = document.getElementById('btnState');
             var txt = elem.textContent || elem.innerText;
             if (txt == "開始辨識") {
                 start();
+                elem.innerHTML = "停止辨識";
             } else {
                 reset();
+                elem.innerHTML = "開始辨識";
             }
         }
+
+        function clearLast() {
+
+        }
+
+        function clearAll() {
+
+        }
+
     </script>
 </body>
 
