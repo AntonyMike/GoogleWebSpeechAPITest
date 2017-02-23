@@ -29,21 +29,14 @@
         recognition.maxAlternatives = 10;
         recognition.onresult = function(event) {
             var len = event.results.length;
-            if (len == 1) {
+            if (len > 0) {
                 if (event.results.length > 0) {
-                    document.getElementById("spSelect").innerHTML = "<select id='select1'>" + "</select>";
-                    var result = event.results[0];
-                    for (var i = 0; i < result.length; ++i) {
-                        var text = result[i].transcript;
-                        document.getElementById("select1").options[i] = new Option(text, text);
-                    }
-                }
-            } else if (len > 1) {
-                for (var i = 0; i < len; i++) {
-                    document.getElementById("spSelect").innerHTML += " + " + "<select id='select" + (i + 2) + "'>" + "</select>";
-                    for (var j = 0; j < event.results[i].length; j++) {
-                        var text = event.results[i][j].transcript;
-                        document.getElementById('select' + (i + 2)).options[j] = new Option(text, text);
+                    for (var i = 0; i < len; i++) {
+                        document.getElementById("spSelect").innerHTML += " + " + "<select id='select" + i + "'>" + "</select>";
+                        for (var j = 0; j < event.results[i].length; j++) {
+                            var text = event.results[i][j].transcript;
+                            document.getElementById('select' + i).options[j] = new Option(text, text);
+                        }
                     }
                 }
             }
@@ -55,7 +48,6 @@
         }
 
         function start() {
-//            select.options.length = 0;
             recognition.start();
             recognizing = true;
         }
