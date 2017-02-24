@@ -14,14 +14,7 @@
     <button id="btnClearAll" onclick="clearAll()">全部清除</button>
     <h4>辨識的文字會顯示在下方選單：</h4>
     <span id="spSelect"></span>
-
-    <!-- -----------test---------- -->
-    <div>
-        <select id="select1" class='select'>" + "</select>
-        <select id="select2" class='select'>" + "</select>
-        <select id="select3" class='select'>" + "</select>
-    </div>
-    <!-- -----------test---------- -->
+    
     <script type="text/javascript">
         var recognizing;
         var recognition = new webkitSpeechRecognition();
@@ -69,7 +62,7 @@
         }
 
         function clearLast() {
-            $("div select:last-child").remove();
+            $("span select:last-child").remove();
         }
 
         function clearAll() {
