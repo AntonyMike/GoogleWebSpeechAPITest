@@ -31,18 +31,9 @@
         recognition.onresult = function(event) {
             var len = event.results.length;
             console.log("event.results.length: " + len);
-//            if (len > 0) {
-//                for (var i = 0; i < len; i++) {
-//                    document.getElementById("spSelect").innerHTML += "<select id='select" + i + "'>" + "</select>";
-//                    for (var j = 0; j < event.results[i].length; j++) {
-//                        var text = event.results[i][j].transcript;
-//                        document.getElementById('select' + i).options[j] = new Option(text, text);
-//                    }
-//                }
-//            }
             var i = event.resultIndex;
             var j = event.results[i].length - 1;
-            document.getElementById("spSelect").innerHTML += "<select id='select" + i + "'>" + "</select>";
+            document.getElementById("spSelect").innerHTML += "<select id='select" + i + "' class='select'>" + "</select>";
             var text = event.results[i][j].transcript;
             document.getElementById('select' + i).options[j] = new Option(text, text);
         }
@@ -74,7 +65,7 @@
         }
 
         function clearAll() {
-
+            document.getElementsByClassName("select").remove();
         }
 
     </script>
