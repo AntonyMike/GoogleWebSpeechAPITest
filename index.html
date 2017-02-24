@@ -25,23 +25,26 @@
         }
         recognition.onend = function() {
             console.log('停止辨識!');
-            reset
+            reset();
         };
         recognition.maxAlternatives = 10;
         recognition.onresult = function(event) {
             var len = event.results.length;
-            if (len > 0) {
-                for (var i = 0; i < len; i++) {
-                    if (i == 0)
-                        document.getElementById("spSelect").innerHTML += "<select id='select" + i + "'>" + "</select>";
-                    else
-                        document.getElementById("spSelect").innerHTML += " + " + "<select id='select" + i + "'>" + "</select>";
-                    for (var j = 0; j < event.results[i].length; j++) {
-                        var text = event.results[i][j].transcript;
-                        document.getElementById('select' + i).options[j] = new Option(text, text);
-                    }
-                }
-            }
+            console.log("event.results.length: " + len);
+//            if (len > 0) {
+//                for (var i = 0; i < len; i++) {
+//                    document.getElementById("spSelect").innerHTML += "<select id='select" + i + "'>" + "</select>";
+//                    for (var j = 0; j < event.results[i].length; j++) {
+//                        var text = event.results[i][j].transcript;
+//                        document.getElementById('select' + i).options[j] = new Option(text, text);
+//                    }
+//                }
+//            }
+            var i = event.resultIndex;
+            var j = event.results[i].length - 1;
+            document.getElementById("spSelect").innerHTML += "<select id='select" + i + "'>" + "</select>";
+            var text = event.results[i][j].transcript;
+            document.getElementById('select' + i).options[j] = new Option(text, text);
         }
 
         function reset() {
@@ -62,7 +65,7 @@
                 start();
                 elem.innerHTML = "停止辨識";
             } else {
-                reset(); 
+                reset();
             }
         }
 
