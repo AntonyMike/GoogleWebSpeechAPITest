@@ -65,7 +65,9 @@
         }
 
         function clearAll() {
-            document.getElementsByClassName("select").removeAll();
+            var select = document.getElementByClassName("select");
+            select.parentNode.removeChild(select);
+//            document.getElementsByClassName("select").removeAll();
         }
 
     </script>
