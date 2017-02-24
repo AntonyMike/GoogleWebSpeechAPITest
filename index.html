@@ -55,8 +55,8 @@
             if (txt == "開始辨識") {
                 start();
                 elem.innerHTML = "停止辨識";
-                $("btnClearLast").prop('disabled', false);
-                $("btnClearAll").prop('disabled', false);
+                $("btnClearLast").removeAttr("disabled");
+                $("btnClearAll").removeAttr("disabled");
             } else {
                 reset();
             }
@@ -68,17 +68,16 @@
             if (select.length != 0) {
                 $("span select:last-child").remove();
             } else {
-                $("btnClearLast").prop('disabled', false);
-                $("btnClearAll").prop('disabled', false);
+                $("btnClearLast").attr("disabled", true);
+                $("btnClearAll").attr("disabled", true);
             }
         }
 
         function clearAll() {
             $("select").remove();
-            $("btnClearLast").prop('disabled', false);
-            $("btnClearAll").prop('disabled', false);
+            $("btnClearLast").attr("disabled", true);
+            $("btnClearAll").attr("disabled", true);
         }
-
     </script>
 </body>
 
