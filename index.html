@@ -55,29 +55,32 @@
             if (txt == "開始辨識") {
                 start();
                 elem.innerHTML = "停止辨識";
-                $("btnClearLast").removeAttr("disabled");
-                $("btnClearAll").removeAttr("disabled");
+                document.getElementById('btnClearLast').disabled = false;
+                document.getElementById('btnClearAll').disabled = false;
+
             } else {
                 reset();
+                elem.innerHTML = "開始辨識";
             }
         }
 
-        var slect = $('select');
 
         function clearLast() {
-            if (select.length != 0) {
+            var num = $('select').length;
+            if (num != 0) {
                 $("span select:last-child").remove();
             } else {
-                $("btnClearLast").attr("disabled", true);
-                $("btnClearAll").attr("disabled", true);
+                document.getElementById('btnClearLast').disabled = true;
+                document.getElementById('btnClearAll').disabled = true;
             }
         }
 
         function clearAll() {
             $("select").remove();
-            $("btnClearLast").attr("disabled", true);
-            $("btnClearAll").attr("disabled", true);
+            document.getElementById('btnClearLast').disabled = true;
+            document.getElementById('btnClearAll').disabled = true;
         }
+
     </script>
 </body>
 
