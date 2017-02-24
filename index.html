@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Google Web Speech API Test </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 
 <body>
@@ -14,6 +15,13 @@
     <h4>辨識的文字會顯示在下方選單：</h4>
     <span id="spSelect"></span>
 
+    <!-- -----------test---------- -->
+    <div>
+        <select id="select1" class='select'>" + "</select>
+        <select id="select2" class='select'>" + "</select>
+        <select id="select3" class='select'>" + "</select>
+    </div>
+    <!-- -----------test---------- -->
     <script type="text/javascript">
         var recognizing;
         var recognition = new webkitSpeechRecognition();
@@ -61,13 +69,11 @@
         }
 
         function clearLast() {
-
+            $("div select:last-child").remove();
         }
 
         function clearAll() {
-            var select = document.getElementsByClassName("select");
-            select.parentNode.removeChild(select);
-//            document.getElementsByClassName("select").removeAll();
+            $("select").remove();
         }
 
     </script>
