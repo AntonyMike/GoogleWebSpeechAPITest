@@ -8,13 +8,12 @@
 </head>
 
 <body>
-
     <button id="btnState" onclick="btnStateClick();">開始辨識</button>
-    <button id="btnClearLast" onclick="clearLast()">清除最後一項</button>
-    <button id="btnClearAll" onclick="clearAll()">全部清除</button>
+    <button id="btnClearLast" onclick="clearLast()" disabled="disable">清除最後一項</button>
+    <button id="btnClearAll" onclick="clearAll()" disabled="disable">全部清除</button>
     <h4>辨識的文字會顯示在下方選單：</h4>
     <span id="spSelect"></span>
-    
+
     <script type="text/javascript">
         var recognizing;
         var recognition = new webkitSpeechRecognition();
@@ -56,17 +55,28 @@
             if (txt == "開始辨識") {
                 start();
                 elem.innerHTML = "停止辨識";
+                $("btnClearLast").prop('disabled', false);
+                $("btnClearAll").prop('disabled', false);
             } else {
                 reset();
             }
         }
 
+        var slect = $('select');
+
         function clearLast() {
-            $("span select:last-child").remove();
+            if (select.length != 0) {
+                $("span select:last-child").remove();
+            } else {
+                $("btnClearLast").prop('disabled', false);
+                $("btnClearAll").prop('disabled', false);
+            }
         }
 
         function clearAll() {
             $("select").remove();
+            $("btnClearLast").prop('disabled', false);
+            $("btnClearAll").prop('disabled', false);
         }
 
     </script>
