@@ -30,16 +30,36 @@
         recognition.maxAlternatives = 10;
         recognition.onresult = function(event) {
             var len = event.results.length;
+            var temp = 1;
+            var _isFirstResult = true;
+            
             if(len>0){
                 document.getElementById('btnClearLast').disabled = false;
                 document.getElementById('btnClearAll').disabled = false;
             }
-            console.log("event.results.length: " + len);
-            var i = event.resultIndex;
-            var j = event.results[i].length - 1;
-            document.getElementById("spSelect").innerHTML += "<select id='select" + i + "' class='select'>" + "</select>";
-            var text = event.results[i][j].transcript;
-            document.getElementById('select' + i).options[j] = new Option(text, text);
+            
+            if(len == temp){
+                if(_isFirstResult){
+                    _isFirstResult = false;
+                    document.getElementById("spSelect").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
+                }
+                var j = event.results[len].length - 1;
+                var text = event.results[len][j].transcript;
+                document.getElementById('select' + len).options[j] = new Option(text, text);
+            }else{
+                _isFirstResult = true;
+                temp++;
+            }
+               
+//             console.log("event.results.length: " + len);
+//             var i = event.resultIndex;
+//             var j = event.results[i].length - 1;
+//             document.getElementById("spSelect").innerHTML += "<select id='select" + i + "' class='select'>" + "</select>";
+//             var text = event.results[i][j].transcript;
+//             document.getElementById('select' + i).options[j] = new Option(text, text);
+            
+            temp = len;
+            len = 0;
         }
 
         function reset() {
