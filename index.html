@@ -46,18 +46,18 @@
                         document.getElementById("spResult").innerHTML += "<span class='spPlus'>" + " + " + "</span>";
                         document.getElementById("spResult").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
                     }
+                    var j = event.results[len].length-1;
+                    if (event.results[len].isFinal) {
+                        for(var i=0;i<event.results[len].length;i++){
+                            var text = event.results[len][i].transcript;
+                            document.getElementById('select' + len).options[i] = new Option(text, text);
+                        }                      
+                    }  
                 }                        
             } else {
                 _isFirstResult = true;
                 temp++;
-            }
-            
-            var i = event.resultIndex;
-            var j = event.results[i].length-1;
-            if (event.results[i].isFinal) {
-                var text = event.results[i][j].transcript;
-                document.getElementById('select' + i).options[j] = new Option(text, text);
-            }                             
+            }                               
             temp = len;
             len = 0;
         }
