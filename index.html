@@ -43,7 +43,7 @@
                         document.getElementById("spResult").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
                     } else {
                         document.getElementById("spResult").innerHTML += "<span class='spPlus'>" + " + " + "</span>";
-                        document.getElementById("spResult").innerHTML += " + " + "<select id='select" + len + "' class='select'>" + "</select>";
+                        document.getElementById("spResult").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
                     }
                 }
                 var j = event.results[len].length - 1;
@@ -83,11 +83,11 @@
         function clearLast() {
             var num = $('select').length;
             if (num > 1) {
-                $("spResult spPlus:last-child").remove();
-                $("spResult select:last-child").remove();
+                $("span spPlus:last-child").remove();
+                $("span select:last-child").remove();
             } else if (num == 1) {
-                $("spResult spPlus:last-child").remove();
-                $("spResult select:last-child").remove();
+                $("span spPlus:last-child").remove();
+                $("span select:last-child").remove();
                 document.getElementById('btnClearLast').disabled = true;
                 document.getElementById('btnClearAll').disabled = true;
             } else {
