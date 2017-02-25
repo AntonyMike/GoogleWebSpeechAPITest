@@ -30,6 +30,7 @@
         };
         recognition.maxAlternatives = 10;
         recognition.onresult = function (event) {
+            console.log(event.results);
             len = event.resultIndex;
             console.log(len);
             if ($('select').length != 0) {
