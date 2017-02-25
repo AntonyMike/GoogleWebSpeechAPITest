@@ -30,6 +30,10 @@
         recognition.maxAlternatives = 10;
         recognition.onresult = function(event) {
             var len = event.results.length;
+            if(len>0){
+                document.getElementById('btnClearLast').disabled = false;
+                document.getElementById('btnClearAll').disabled = false;
+            }
             console.log("event.results.length: " + len);
             var i = event.resultIndex;
             var j = event.results[i].length - 1;
@@ -55,9 +59,8 @@
             if (txt == "開始辨識") {
                 start();
                 elem.innerHTML = "停止辨識";
-                document.getElementById('btnClearLast').disabled = false;
-                document.getElementById('btnClearAll').disabled = false;
-
+//                document.getElementById('btnClearLast').disabled = false;
+//                document.getElementById('btnClearAll').disabled = false;
             } else {
                 reset();
                 elem.innerHTML = "開始辨識";
@@ -67,8 +70,12 @@
 
         function clearLast() {
             var num = $('select').length;
-            if (num != 0) {
+            if (num > 1) {
                 $("span select:last-child").remove();
+            } else if (num == 1) {
+                $("span select:last-child").remove();
+                document.getElementById('btnClearLast').disabled = true;
+                document.getElementById('btnClearAll').disabled = true;
             } else {
                 document.getElementById('btnClearLast').disabled = true;
                 document.getElementById('btnClearAll').disabled = true;
