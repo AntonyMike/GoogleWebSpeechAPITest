@@ -19,8 +19,7 @@
         var recognizing;
         var recognition = new webkitSpeechRecognition();
         recognition.continuous = true;
-//         recognition.interimResults = true;
-        recognition.interimResults = false;
+        recognition.interimResults = true;
         recognition.lang = "cmn-Hant-TW";
         recognition.onstart = function () {
             console.log('開始辨識...');
@@ -40,13 +39,15 @@
             if (len == temp) {
                 if (_isFirstResult) {
                     _isFirstResult = false;
-                    document.getElementById("spSelect").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
+                    if(len == 0)
+                        document.getElementById("spSelect").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
+                    else
+                        document.getElementById("spSelect").innerHTML += " + " + "<select id='select" + len + "' class='select'>" + "</select>";
                 }
                 var j = event.results[len].length - 1;
                 var text = event.results[len][j].transcript;
                 document.getElementById('select' + len).options[j] = new Option(text, text);
-            }
-            else {
+            } else {
                 _isFirstResult = true;
                 temp++;
             }
