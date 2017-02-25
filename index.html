@@ -47,9 +47,11 @@
                         document.getElementById("spResult").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
                     }
                 }
-                var j = event.results[len].length - 1;
-                var text = event.results[len][j].transcript;
-                document.getElementById('select' + len).options[j] = new Option(text, text);
+                if (event.results[len].isFinal){
+                    var j = event.results[len].length - 1;
+                    var text = event.results[len][j].transcript;
+                    document.getElementById('select' + len).options[j] = new Option(text, text);
+                }
             } else {
                 _isFirstResult = true;
                 temp++;
