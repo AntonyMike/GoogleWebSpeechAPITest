@@ -82,12 +82,12 @@
 
         function clearLast() {
             var num = $(".select").length;
-            if (num > 1) {
-                $("span .spPlus:last-child").remove();
+            if (num > 1) {         
                 $("span .select:last-child").remove();
-            } else if (num == 1) {
                 $("span .spPlus:last-child").remove();
+            } else if (num == 1) {                
                 $("span .select:last-child").remove();
+                $("span .spPlus:last-child").remove();
                 document.getElementById('btnClearLast').disabled = true;
                 document.getElementById('btnClearAll').disabled = true;
             } else {
