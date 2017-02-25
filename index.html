@@ -29,7 +29,9 @@
         };
         recognition.maxAlternatives = 10;
         recognition.onresult = function(event) {
-            var len = event.results.length;
+            var len = event.resultIndex;
+            console.log(len);
+            console.log(typeof(len));
             var temp = 1;
             var _isFirstResult = true;
             
@@ -79,8 +81,6 @@
             if (txt == "開始辨識") {
                 start();
                 elem.innerHTML = "停止辨識";
-//                document.getElementById('btnClearLast').disabled = false;
-//                document.getElementById('btnClearAll').disabled = false;
             } else {
                 reset();
                 elem.innerHTML = "開始辨識";
