@@ -46,9 +46,10 @@
                         document.getElementById("spResult").innerHTML += "<span class='spPlus'>" + " + " + "</span>";
                         document.getElementById("spResult").innerHTML += "<select id='select" + (len+1) + "' class='select'>" + "</select>";
                     }
-                    while(!event.results[len].isFinal){
-                        ;
-                    }
+                    do{
+                        if(!event.results[len].isFinal)
+                            break;
+                    }while(!event.results[len].isFinal);
                     if (event.results[len].isFinal) {
                         for(var i=0;i<event.results[len].length;i++){
                             var text = event.results[len][i].transcript;
