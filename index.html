@@ -11,56 +11,45 @@
     <button id="btnState" onclick="btnStateClick();">開始辨識</button>
     <button id="btnClearLast" onclick="clearLast()" disabled="disable">清除最後一項</button>
     <button id="btnClearAll" onclick="clearAll()" disabled="disable">全部清除</button>
-    <h4>辨識的文字會顯示在下方選單：</h4>
-    <span id="spSelect"></span>
-
+    <h4>辨識的文字會顯示在下方選單：</h4> <span id="spSelect"></span>
     <script type="text/javascript">
         var len = 0;
         var temp = 0;
         var _isFirstResult = true;
         var recognizing;
         var recognition = new webkitSpeechRecognition();
-       
         recognition.continuous = true;
-       
-        recognition.interimResults = true;
-        
+//         recognition.interimResults = true;
+        recognition.interimResults = false;
         recognition.lang = "cmn-Hant-TW";
-       
-        recognition.onstart = function() {
+        recognition.onstart = function () {
             console.log('開始辨識...');
         }
-       
-        recognition.onend = function() {
+        recognition.onend = function () {
             console.log('停止辨識!');
             reset();
         };
-        
         recognition.maxAlternatives = 10;
-       
-        recognition.onresult = function(event) {
+        recognition.onresult = function (event) {
             len = event.resultIndex;
             console.log(len);
-            console.log(typeof(len));
-            
-            if(len>0){
+            if ($('select').length != 0) {
                 document.getElementById('btnClearLast').disabled = false;
                 document.getElementById('btnClearAll').disabled = false;
             }
-            
-            if(len == temp){
-                if(_isFirstResult){
+            if (len == temp) {
+                if (_isFirstResult) {
                     _isFirstResult = false;
                     document.getElementById("spSelect").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
                 }
                 var j = event.results[len].length - 1;
                 var text = event.results[len][j].transcript;
                 document.getElementById('select' + len).options[j] = new Option(text, text);
-            }else{
+            }
+            else {
                 _isFirstResult = true;
                 temp++;
             }
-               
             temp = len;
             len = 0;
         }
@@ -82,22 +71,24 @@
             if (txt == "開始辨識") {
                 start();
                 elem.innerHTML = "停止辨識";
-            } else {
+            }
+            else {
                 reset();
                 elem.innerHTML = "開始辨識";
             }
         }
 
-
         function clearLast() {
             var num = $('select').length;
             if (num > 1) {
                 $("span select:last-child").remove();
-            } else if (num == 1) {
+            }
+            else if (num == 1) {
                 $("span select:last-child").remove();
                 document.getElementById('btnClearLast').disabled = true;
                 document.getElementById('btnClearAll').disabled = true;
-            } else {
+            }
+            else {
                 document.getElementById('btnClearLast').disabled = true;
                 document.getElementById('btnClearAll').disabled = true;
             }
@@ -108,7 +99,6 @@
             document.getElementById('btnClearLast').disabled = true;
             document.getElementById('btnClearAll').disabled = true;
         }
-
     </script>
 </body>
 
