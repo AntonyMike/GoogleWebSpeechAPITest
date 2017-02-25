@@ -52,13 +52,10 @@
                 temp++;
             }
             
-            for (var i = event.resultIndex; i < event.results.length; ++i) {
-                if (event.results[i].isFinal) {
-                    var j = event.results[i].length - 1;
-                    var text = event.results[i][j].transcript;
-                    document.getElementById('select' + len).options[j] = new Option(text, text);
-                }
-            }        
+            var i = event.resultIndex;
+            var j = event.results[i].length-1;
+            var text = event.results[i][j].transcript;
+            document.getElementById('select' + i).options[j] = new Option(text, text);     
             
             temp = len;
             len = 0;
