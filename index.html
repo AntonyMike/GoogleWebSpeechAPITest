@@ -47,11 +47,17 @@
                         document.getElementById("spResult").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
                     }
                 }
-                if (event.results[len].isFinal){
-                    var j = event.results[len].length - 1;
-                    var text = event.results[len][j].transcript;
-                    document.getElementById('select' + len).options[j] = new Option(text, text);
-                }
+//                 var j = event.results[len].length - 1;
+//                 var text = event.results[len][j].transcript;
+//                 document.getElementById('select' + len).options[j] = new Option(text, text);
+                for (var i = event.resultIndex; i < event.results.length; ++i) { // 對於每一個辨識結果
+                    if (event.results[i].isFinal) { // 如果是最終結果
+//                         final_transcript += event.results[i][0].transcript; // 將其加入最終結果中
+                        var j = event.results[i].length - 1;
+                        var text = event.results[i][j].transcript;
+                        document.getElementById('select' + len).options[j] = new Option(text, text);
+                    }
+                }                
             } else {
                 _isFirstResult = true;
                 temp++;
