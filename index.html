@@ -27,7 +27,7 @@
         }
         recognition.onend = function() {
             console.log('停止辨識!');
-            final = temp;
+            final += temp;
             temp = 0;
             document.getElementById("spResult").innerHTML += "<span class='spEnd'>" + " 。" + "</span>";
         };
@@ -127,7 +127,6 @@
             document.getElementById('btnClearLast').disabled = true;
             document.getElementById('btnClearAll').disabled = true;
         }
-
     </script>
 </body>
 
