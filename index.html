@@ -11,7 +11,7 @@
     <button id="btnState" onclick="btnStateClick();">開始辨識</button>
     <button id="btnClearLast" onclick="clearLast()" disabled="disable">清除最後一項</button>
     <button id="btnClearAll" onclick="clearAll()" disabled="disable">全部清除</button>
-    <h4>辨識的文字會顯示在下方選單：</h4> <span id="spResult"></span>
+    <h4>辨識的結果會顯示在下方選單：</h4> <span id="spResult"></span>
     <script type="text/javascript">
         var len = 0;
         var temp = 0;
@@ -26,7 +26,8 @@
         }
         recognition.onend = function () {
             console.log('停止辨識!');
-            reset();
+            if(!recognizing)
+                reset();
         };
         recognition.maxAlternatives = 10;
         recognition.onresult = function (event) {
