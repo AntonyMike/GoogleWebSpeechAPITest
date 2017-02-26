@@ -46,12 +46,12 @@
                     if (len == 0) {
                         document.getElementById("spResult").innerHTML += "<select id='select" + (len + final) + "' class='select'>" + "</select>";
                     } else {
-                        document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ，" + "</span>";
+                        document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ， " + "</span>";
                         document.getElementById("spResult").innerHTML += "<select id='select" + (len + final) + "' class='select'>" + "</select>";
                     }
                 }
-                if (event.results[(len + final)].isFinal) {
-                    for (var i = 0; i < event.results[(len + final)].length; i++) {
+                if (event.results[len].isFinal) {
+                    for (var i = 0; i < event.results[len].length; i++) {
                         var text = event.results[len][i].transcript;
                         document.getElementById('select' + (len + final)).options[i] = new Option(text, text);
                     }
@@ -109,7 +109,6 @@
             document.getElementById('btnClearLast').disabled = true;
             document.getElementById('btnClearAll').disabled = true;
         }
-
     </script>
 </body>
 
