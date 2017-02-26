@@ -13,27 +13,29 @@
     <button id="btnClearAll" onclick="clearAll()" disabled="disable">全部清除</button>
     <h4>辨識的結果會顯示在下方選單：</h4> <span id="spResult"></span>
     <script type="text/javascript">
-        var len = 0;
-        var temp = 0;
+        var len = 0; //語音辨識陣列長度
+        var temp = 0; //暫存語音辨識陣列長度
+        var final = 0; //儲存前一次語音辨識陣列的長度
         var _isFirstResult = true;
         var recognizing;
         var recognition = new webkitSpeechRecognition();
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.lang = "cmn-Hant-TW";
-        recognition.onstart = function () {
+        recognition.continuous = true; //及時辨識
+        recognition.interimResults = true; //是否顯示中間辨識結果
+        recognition.lang = "cmn-Hant-TW"; //語言:中文(台灣)
+        recognition.onstart = function() {
             console.log('開始辨識...');
         }
-        recognition.onend = function () {
+        recognition.onend = function() {
             console.log('停止辨識!');
-            if(!recognizing)
-                reset();
+            final = temp;
+            temp = 0;
+            document.getElementById("spResult").innerHTML += "<span class='spEnd'>" + " 。" + "</span>";
         };
-        recognition.maxAlternatives = 10;
-        recognition.onresult = function (event) {
-            console.log(event.results);
+        recognition.maxAlternatives = 10; //最大辨識結果長度
+        recognition.onresult = function(event) {
             len = event.resultIndex;
             console.log(len);
+            console.log(event.results);
             if ($('select').length != 0) {
                 document.getElementById('btnClearLast').disabled = false;
                 document.getElementById('btnClearAll').disabled = false;
@@ -42,18 +44,18 @@
                 if (_isFirstResult) {
                     _isFirstResult = false;
                     if (len == 0) {
-                        document.getElementById("spResult").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
+                        document.getElementById("spResult").innerHTML += "<select id='select" + (len + final) + "' class='select'>" + "</select>";
                     } else {
-                        document.getElementById("spResult").innerHTML += "<span class='spPlus'>" + " + " + "</span>";
-                        document.getElementById("spResult").innerHTML += "<select id='select" + len + "' class='select'>" + "</select>";
+                        document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ，" + "</span>";
+                        document.getElementById("spResult").innerHTML += "<select id='select" + (len + final) + "' class='select'>" + "</select>";
                     }
-                } 
-                if (event.results[len].isFinal) {
-                    for(var i=0;i<event.results[len].length;i++){
+                }
+                if (event.results[(len + final)].isFinal) {
+                    for (var i = 0; i < event.results[(len + final)].length; i++) {
                         var text = event.results[len][i].transcript;
-                        document.getElementById('select' + len).options[i] = new Option(text, text);
-                    }                      
-                }  
+                        document.getElementById('select' + (len + final)).options[i] = new Option(text, text);
+                    }
+                }
             } else {
                 _isFirstResult = true;
                 temp++;
@@ -85,12 +87,13 @@
 
         function clearLast() {
             var num = $(".select").length;
-            if (num > 1) {         
+            if (num > 1) {
                 $("span .select:last-child").remove();
-                $("span .spPlus:last-child").remove();
-            } else if (num == 1) {                
+                $("span .spComma:last-child").remove();
+            } else if (num == 1) {
                 $("span .select:last-child").remove();
-                $("span .spPlus:last-child").remove();
+                $("span .spComma:last-child").remove();
+                $(".spEnd").remove();
                 document.getElementById('btnClearLast').disabled = true;
                 document.getElementById('btnClearAll').disabled = true;
             } else {
@@ -101,10 +104,12 @@
 
         function clearAll() {
             $(".select").remove();
-            $(".spPlus").remove();
+            $(".spComma").remove();
+            $(".spEnd").remove();
             document.getElementById('btnClearLast').disabled = true;
             document.getElementById('btnClearAll').disabled = true;
         }
+
     </script>
 </body>
 
