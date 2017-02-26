@@ -44,16 +44,28 @@
                 if (_isFirstResult) {
                     _isFirstResult = false;
                     if (len == 0) {
-                        document.getElementById("spResult").innerHTML += "<select id='select" + (len + final) + "' class='select'>" + "</select>";
+                        if (final != 0) {
+                            $(".spEnd").remove();
+                            document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ， " + "</span>";
+                            document.getElementById("spResult").innerHTML += "<select id='select" + (len + final + 2) + "' class='select'>" + "</select>";
+                        } else {
+                            document.getElementById("spResult").innerHTML += "<select id='select" + (len + 1) + "' class='select'>" + "</select>";
+                        }
                     } else {
-                        document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ， " + "</span>";
-                        document.getElementById("spResult").innerHTML += "<select id='select" + (len + final) + "' class='select'>" + "</select>";
+
+                        if (final != 0) {
+                            document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ， " + "</span>";
+                            document.getElementById("spResult").innerHTML += "<select id='select" + (len + final + 2) + "' class='select'>" + "</select>";
+                        } else {
+                            document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ， " + "</span>";
+                            document.getElementById("spResult").innerHTML += "<select id='select" + (len + 1) + "' class='select'>" + "</select>";
+                        }
                     }
                 }
                 if (event.results[len].isFinal) {
                     for (var i = 0; i < event.results[len].length; i++) {
                         var text = event.results[len][i].transcript;
-                        document.getElementById('select' + (len + final)).options[i] = new Option(text, text);
+                        document.getElementById('select' + (len + final + 1)).options[i] = new Option(text, text);
                     }
                 }
             } else {
@@ -103,12 +115,15 @@
         }
 
         function clearAll() {
+            temp = 0;
+            final = 0;
             $(".select").remove();
             $(".spComma").remove();
             $(".spEnd").remove();
             document.getElementById('btnClearLast').disabled = true;
             document.getElementById('btnClearAll').disabled = true;
         }
+
     </script>
 </body>
 
