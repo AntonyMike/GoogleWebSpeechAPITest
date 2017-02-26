@@ -52,7 +52,6 @@
                             document.getElementById("spResult").innerHTML += "<select id='select" + (len + 1) + "' class='select'>" + "</select>";
                         }
                     } else {
-
                         if (final != 0) {
                             document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ， " + "</span>";
                             document.getElementById("spResult").innerHTML += "<select id='select" + (len + final + 2) + "' class='select'>" + "</select>";
@@ -65,7 +64,11 @@
                 if (event.results[len].isFinal) {
                     for (var i = 0; i < event.results[len].length; i++) {
                         var text = event.results[len][i].transcript;
-                        document.getElementById('select' + (len + final + 1)).options[i] = new Option(text, text);
+                        if (final != 0) {
+                            document.getElementById('select' + (len + final + 2)).options[i] = new Option(text, text);
+                        } else {
+                            document.getElementById('select' + (len + 1)).options[i] = new Option(text, text);
+                        }
                     }
                 }
             } else {
@@ -123,7 +126,6 @@
             document.getElementById('btnClearLast').disabled = true;
             document.getElementById('btnClearAll').disabled = true;
         }
-
     </script>
 </body>
 
