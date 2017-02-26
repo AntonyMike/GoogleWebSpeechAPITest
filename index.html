@@ -45,9 +45,9 @@
                     _isFirstResult = false;
                     if (len == 0) {
                         if (final != 0) {
-                            $(".spEnd").remove();
                             document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ， " + "</span>";
                             document.getElementById("spResult").innerHTML += "<select id='select" + (len + final + 2) + "' class='select'>" + "</select>";
+                            $(".spEnd").remove();
                         } else {
                             document.getElementById("spResult").innerHTML += "<select id='select" + (len + 1) + "' class='select'>" + "</select>";
                         }
@@ -80,6 +80,7 @@
         function reset() {
             recognition.stop();
             recognizing = false;
+            _isFirstResult = true;
             document.getElementById('btnState').innerHTML = "開始辨識";
         }
 
@@ -126,6 +127,7 @@
             document.getElementById('btnClearLast').disabled = true;
             document.getElementById('btnClearAll').disabled = true;
         }
+
     </script>
 </body>
 
