@@ -7,6 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <style>
         /*列印時 <body>, <pre> 之 css 需相同*/
+        
         body {
             background-color: lightblue;
             -webkit-print-color-adjust: exact;
@@ -15,7 +16,7 @@
         #print_parts {
             background-color: yellow;
             -webkit-print-color-adjust: exact;
-        }        
+        }
     </style>
 </head>
 
@@ -44,10 +45,16 @@
         }
         recognition.onend = function () {
             console.log('停止辨識!');
-            final += temp;
+            if (temp == 0 && $("select").length == 1) {
+                final = 1;
+            } else {
+                final += temp;
+            }
             temp = 0;
-            document.getElementById("spResult").innerHTML += "<span class='spEnd'>" + " 。" + "</span>";
-            document.getElementById('btnPrint').disabled = false;
+            if ($("select").length != 0) {
+                document.getElementById("spResult").innerHTML += "<span class='spEnd'>" + " 。" + "</span>";
+                document.getElementById('btnPrint').disabled = false;
+            }
         };
         recognition.maxAlternatives = 10; //最大辨識結果長度
         recognition.onresult = function (event) {
