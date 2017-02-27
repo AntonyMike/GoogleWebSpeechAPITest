@@ -17,7 +17,6 @@
             background-color: yellow;
             -webkit-print-color-adjust: exact;
         }
-
     </style>
 </head>
 
@@ -83,7 +82,7 @@
                 if (event.results[len].isFinal) {
                     for (var i = 0; i < event.results[len].length; i++) {
                         var text = event.results[len][i].transcript;
-                        if ($("select").length == 1) {
+                        if ($("select").length == 1 && len == 0) {
                             $(".select:eq(0)").append($("<option></option>").prop("value", text).text(text));
                         } else {
                             $(".select:eq(" + (len + $("select").length) + ")").append($("<option></option>").prop("value", text).text(text));
@@ -174,7 +173,6 @@
             printPage.document.write("</pre>");
             printPage.document.close("</body></html>");
         }
-
     </script>
 </body>
 
