@@ -21,10 +21,10 @@
 </head>
 
 <body>
-    <button id="btnState" onclick="btnStateClick();">開始辨識</button>
-    <button id="btnClearLast" onclick="clearLast()" disabled="disable">清除最後一項</button>
-    <button id="btnClearAll" onclick="clearAll()" disabled="disable">全部清除</button>
-    <button id="btnPrint" onclick="print()" disabled="disable">列印</button>
+    <input type="button" id="btnState" value="開始辨識" onclick="btnStateClick();">
+    <input type="button" id="btnClearLast" value="清除最後一項" onclick="clearLast()" disabled="disable">
+    <input type="button" id="btnClearAll" value="全部清除" onclick="clearAll()" disabled="disable">
+    <input type="button" id="btnPrint" value="列印" onclick="print()" disabled="disable">
     <h4>辨識的結果會顯示在下方選單：</h4>
     <div id="print_parts">
         <span id="spResult"></span>
@@ -39,12 +39,12 @@
         recognition.continuous = true; //及時辨識
         recognition.interimResults = true; //是否顯示中間辨識結果
         recognition.lang = "cmn-Hant-TW"; //語言:中文(台灣)
-        recognition.onstart = function () {
-            console.log('開始辨識...');
-            document.getElementById('btnPrint').disabled = true;
+        recognition.onstart = function() {
+            console.log("開始辨識...");
+            $("#btnPrint").prop("disabled", true);
         }
-        recognition.onend = function () {
-            console.log('停止辨識!');
+        recognition.onend = function() {
+            console.log("停止辨識!");
             if (temp == 0 && $("select").length == 1) {
                 final = 1;
             } else {
@@ -52,37 +52,37 @@
             }
             temp = 0;
             if ($("select").length != 0) {
-                document.getElementById("spResult").innerHTML += "<span class='spEnd'>" + " 。" + "</span>";
-                document.getElementById('btnPrint').disabled = false;
+                $("#spResult").append("<span class='spEnd'>" + " 。" + "</span>");
+                $("#btnPrint").prop("disabled", false);
             }
         };
         recognition.maxAlternatives = 10; //最大辨識結果長度
-        recognition.onresult = function (event) {
+        recognition.onresult = function(event) {
             len = event.resultIndex;
             console.log(len);
             console.log(event.results);
-            if ($('select').length != 0) {
-                document.getElementById('btnClearLast').disabled = false;
-                document.getElementById('btnClearAll').disabled = false;
+            if ($("select").length != 0) {
+                $("#btnClearLast").prop("disabled", false);
+                $("#btnClearAll").prop("disabled", false);
             }
             if (len == temp) {
                 if (_isFirstResult) {
                     _isFirstResult = false;
                     if (len == 0) {
                         if (final != 0) {
-                            document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ， " + "</span>";
-                            document.getElementById("spResult").innerHTML += "<select id='select" + (len + final + 2) + "' class='select'>" + "</select>";
+                            $("#spResult").append("<span class='spComma'>" + " ， " + "</span>");
+                            $("#spResult").append("<select id='select" + (len + final + 2) + "' class='select'>" + "</select>");
                             $(".spEnd").remove();
                         } else {
-                            document.getElementById("spResult").innerHTML += "<select id='select" + (len + 1) + "' class='select'>" + "</select>";
+                            $("#spResult").append("<select id='select" + (len + 1) + "' class='select'>" + "</select>");
                         }
                     } else {
                         if (final != 0) {
-                            document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ， " + "</span>";
-                            document.getElementById("spResult").innerHTML += "<select id='select" + (len + final + 2) + "' class='select'>" + "</select>";
+                            $("#spResult").append("<span class='spComma'>" + " ， " + "</span>");
+                            $("#spResult").append("<select id='select" + (len + final + 2) + "' class='select'>" + "</select>");
                         } else {
-                            document.getElementById("spResult").innerHTML += "<span class='spComma'>" + " ， " + "</span>";
-                            document.getElementById("spResult").innerHTML += "<select id='select" + (len + 1) + "' class='select'>" + "</select>";
+                            $("#spResult").append("<span class='spComma'>" + " ， " + "</span>");
+                            $("#spResult").append("<select id='select" + (len + 1) + "' class='select'>" + "</select>");
                         }
                     }
                 }
@@ -90,9 +90,9 @@
                     for (var i = 0; i < event.results[len].length; i++) {
                         var text = event.results[len][i].transcript;
                         if (final != 0) {
-                            document.getElementById('select' + (len + final + 2)).options[i] = new Option(text, text);
+                            $("#select" + (len + final + 2)).append($("<option></option>").prop("value", text).text(text));
                         } else {
-                            document.getElementById('select' + (len + 1)).options[i] = new Option(text, text);
+                            $("#select" + (len + 1)).append($("<option></option>").prop("value", text).text(text));
                         }
                     }
                 }
@@ -106,7 +106,7 @@
             recognition.stop();
             recognizing = false;
             _isFirstResult = true;
-            document.getElementById('btnState').innerHTML = "開始辨識";
+            $("#btnState").prop("value", "開始辨識");
         }
 
         function start() {
@@ -115,14 +115,12 @@
         }
 
         function btnStateClick() {
-            var elem = document.getElementById('btnState');
-            var txt = elem.textContent || elem.innerText;
-            if (txt == "開始辨識") {
+            if ($("btnState").text() == "開始辨識") {
                 start();
-                elem.innerHTML = "停止辨識";
+                $("btnState").prop("value", "停止辨識");
             } else {
                 reset();
-                elem.innerHTML = "開始辨識";
+                $("btnState").prop("value", "開始辨識");
             }
         }
 
@@ -132,14 +130,14 @@
             if (num > 1) {
                 $("span .select:last-child").remove();
                 $("span .spComma:last-child").remove();
-                document.getElementById("spResult").innerHTML += "<span class='spEnd'>" + " 。" + "</span>";
+                $("#spResult").append("<span class='spEnd'>" + " 。" + "</span>");
             } else if (num == 1) {
                 $("span .select:last-child").remove();
-                document.getElementById('btnClearLast').disabled = true;
-                document.getElementById('btnClearAll').disabled = true;
+                $("#btnClearLast").prop("disabled", true);
+                $("#btnClearAll").prop("disabled", true);
             } else {
-                document.getElementById('btnClearLast').disabled = true;
-                document.getElementById('btnClearAll').disabled = true;
+                $("#btnClearLast").prop("disabled", true);
+                $("#btnClearAll").prop("disabled", true)
             }
         }
 
@@ -149,8 +147,8 @@
             $(".select").remove();
             $(".spComma").remove();
             $(".spEnd").remove();
-            document.getElementById('btnClearLast').disabled = true;
-            document.getElementById('btnClearAll').disabled = true;
+            $("#btnClearLast").prop("disabled", true);
+            $("#btnClearAll").prop("disabled", true)
         }
 
         function getText() {
