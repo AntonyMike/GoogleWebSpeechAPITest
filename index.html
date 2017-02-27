@@ -17,6 +17,7 @@
             background-color: yellow;
             -webkit-print-color-adjust: exact;
         }
+
     </style>
 </head>
 
@@ -49,6 +50,7 @@
         }
         recognition.onend = function() {
             console.log("停止辨識!");
+            final = $("select").length;
             temp = 0;
             if ($("select").length != 0) {
                 $("#spResult").append("<span class='spEnd'>" + " 。" + "</span>");
@@ -142,6 +144,7 @@
 
         function clearAll() {
             temp = 0;
+            final = 0;
             $(".select").remove();
             $(".spComma").remove();
             $(".spEnd").remove();
@@ -174,6 +177,7 @@
             printPage.document.write("</pre>");
             printPage.document.close("</body></html>");
         }
+
     </script>
 </body>
 
