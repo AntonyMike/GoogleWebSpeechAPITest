@@ -22,8 +22,8 @@
 </head>
 
 <body>
-    <input type="button" id="btnState" value="開始辨識" onclick="btnStateClick();">
-    <input type="button" id="btnClearLast" value="清除最後一項" onclick="clearLast()" disabled="disable">
+    <input type="button" id="btnState" value="開始辨識" onclick="btnStateClick()">
+    <input type="button" id="btnClearLastItem" value="清除最後一項" onclick="clearLastItem()" disabled="disable">
     <input type="button" id="btnClearAll" value="全部清除" onclick="clearAll()" disabled="disable">
     <input type="button" id="btnPrint" value="列印" onclick="print()" disabled="disable">
     <h4>辨識的結果會顯示在下方選單：</h4>
@@ -42,10 +42,16 @@
         recognition.lang = "cmn-Hant-TW"; //語言:中文(台灣)
         recognition.onstart = function() {
             console.log("開始辨識...");
+            console.log("len: " + len);
+            console.log("temp: " + temp);
+            console.log("final: " + final);
             $("#btnPrint").prop("disabled", true);
         }
         recognition.onend = function() {
             console.log("停止辨識!");
+            console.log("len: " + len);
+            console.log("temp: " + temp);
+            console.log("final: " + final);
             if (temp == 0 && $("select").length == 1) {
                 final = 1;
             } else {
@@ -60,40 +66,37 @@
         recognition.maxAlternatives = 10; //最大辨識結果長度
         recognition.onresult = function(event) {
             len = event.resultIndex;
-            console.log(len);
+            console.log("len: " + len);
+            console.log("temp: " + temp);
+            console.log("final: " + final);
             console.log(event.results);
             if ($("select").length != 0) {
-                $("#btnClearLast").prop("disabled", false);
+                $("#btnClearLastItem").prop("disabled", false);
                 $("#btnClearAll").prop("disabled", false);
             }
             if (len == temp) {
                 if (_isFirstResult) {
                     _isFirstResult = false;
                     if (len == 0) {
-                        if (final != 0) {
-                            $("#spResult").append("<span class='spComma'>" + " ， " + "</span>");
-                            $("#spResult").append("<select id='select" + (len + final + 2) + "' class='select'>" + "</select>");
-                            $(".spEnd").remove();
+                        if (final == 0) {
+                            $("#spResult").append("<select class='select'>" + "</select>");
                         } else {
-                            $("#spResult").append("<select id='select" + (len + 1) + "' class='select'>" + "</select>");
+                            $("#spResult").append("<span class='spComma'>" + " ， " + "</span>");
+                            $("#spResult").append("<select class='select'>" + "</select>");
+                            $(".spEnd").remove();
                         }
                     } else {
-                        if (final != 0) {
-                            $("#spResult").append("<span class='spComma'>" + " ， " + "</span>");
-                            $("#spResult").append("<select id='select" + (len + final + 2) + "' class='select'>" + "</select>");
-                        } else {
-                            $("#spResult").append("<span class='spComma'>" + " ， " + "</span>");
-                            $("#spResult").append("<select id='select" + (len + 1) + "' class='select'>" + "</select>");
-                        }
+                        $("#spResult").append("<span class='spComma'>" + " ， " + "</span>");
+                        $("#spResult").append("<select class='select'>" + "</select>");
                     }
                 }
                 if (event.results[len].isFinal) {
                     for (var i = 0; i < event.results[len].length; i++) {
                         var text = event.results[len][i].transcript;
-                        if (final != 0) {
-                            $("#select" + (len + final + 2)).append($("<option></option>").prop("value", text).text(text));
+                        if (final == 0) {
+                            $(".select:eq(" + i + ")").append($("<option></option>").prop("value", text).text(text));
                         } else {
-                            $("#select" + (len + 1)).append($("<option></option>").prop("value", text).text(text));
+                            $(".select:eq(" + (i + final + 1) + ")").append($("<option></option>").prop("value", text).text(text));
                         }
                     }
                 }
@@ -125,20 +128,22 @@
             }
         }
 
-        function clearLast() {
+        function clearLastItem() {
             var num = $(".select").length;
             $(".spEnd").remove();
             if (num > 1) {
-                $("span .select:last-child").remove();
-                $("span .spComma:last-child").remove();
+                $(".select:last-child").remove();
+                $(".spComma:last-child").remove();
                 $("#spResult").append("<span class='spEnd'>" + " 。" + "</span>");
             } else if (num == 1) {
-                $("span .select:last-child").remove();
-                $("#btnClearLast").prop("disabled", true);
+                $("#btnPrint").prop("disabled", true);
+                $(".select:last-child").remove();
+                $("#btnClearLastItem").prop("disabled", true);
                 $("#btnClearAll").prop("disabled", true);
             } else {
-                $("#btnClearLast").prop("disabled", true);
-                $("#btnClearAll").prop("disabled", true)
+                $("#btnPrint").prop("disabled", true);
+                $("#btnClearLastItem").prop("disabled", true);
+                $("#btnClearAll").prop("disabled", true);
             }
         }
 
@@ -148,18 +153,19 @@
             $(".select").remove();
             $(".spComma").remove();
             $(".spEnd").remove();
-            $("#btnClearLast").prop("disabled", true);
-            $("#btnClearAll").prop("disabled", true)
+            $("#btnClearLastItem").prop("disabled", true);
+            $("#btnClearAll").prop("disabled", true);
+            $("#btnPrint").prop("disabled", true);
         }
 
         function getText() {
             var text = "";
             for (var i = 0; i < $("select").length; i++) {
                 if (i == $("select").length - 1) {
-                    text += $("#select" + (i + 1) + " :selected").text();
+                    text += $(".select:eq(" + i + ") :selected").text();
                     text += "。";
                 } else {
-                    text += $("#select" + (i + 1) + " :selected").text();
+                    text += $(".select:eq(" + i + ") :selected").text();
                     text += "，";
                 }
             }
