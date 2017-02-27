@@ -94,7 +94,7 @@
                         var text = event.results[len][i].transcript;
                         if (final == 0) {
                             $(".select:eq(" + len + ")").append($("<option></option>").prop("value", text).text(text));
-                        } else if (final == 1) {
+                        } else if (final == 1 && $("select").length == 1) {
                             $(".select:eq(" + (len + final) + ")").append($("<option></option>").prop("value", text).text(text));
                         } else {
                             $(".select:eq(" + (len + final + 1) + ")").append($("<option></option>").prop("value", text).text(text));
