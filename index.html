@@ -129,7 +129,6 @@
             if (num > 1) {
                 $(".select:last-child").remove();
                 $(".spComma:last-child").remove();
-                $("#spResult").append("<span class='spEnd'>" + " 。" + "</span>");
             } else if (num == 1) {
                 $("#btnPrint").prop("disabled", true);
                 $(".select:last-child").remove();
@@ -140,6 +139,10 @@
                 $("#btnClearLastItem").prop("disabled", true);
                 $("#btnClearAll").prop("disabled", true);
             }
+            if (!recognizing) {
+                $("#spResult").append("<span class='spEnd'>" + " 。" + "</span>");
+            }
+            final = $("select").length;
         }
 
         function clearAll() {
