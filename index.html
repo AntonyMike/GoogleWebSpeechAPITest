@@ -146,15 +146,27 @@
             document.getElementById('btnClearAll').disabled = true;
         }
 
+        function getText() {
+            var text = "";
+            for (var i = 0; i < $("select").length; i++) {
+                if (i == $("select").length - 1) {
+                    text += $("#select" + (i + 1) + " :selected").text();
+                    text += "。";
+                } else {
+                    text += $("#select" + (i + 1) + " :selected").text();
+                    text += "，";
+                }
+            }
+            console.log(text);
+            return text;
+        }
+
         function print() {
-            var value = document.getElementById("print_parts").innerHTML;
             var printPage = window.open("", "Printing...", "");
             printPage.document.open();
-            printPage.document.write("<html><head>" + "<style>body{background-color: lightblue;-webkit-print-color-adjust: exact;}" 
-                                     + "pre {background-color: yellow;-webkit-print-color-adjust: exact;}" + "</style>" 
-                                     + "</head><body onload='window.print();window.close()'>");
+            printPage.document.write("<html><head>" + "<style>body{background-color: lightblue;-webkit-print-color-adjust: exact;}" + "pre {background-color: yellow;-webkit-print-color-adjust: exact;}" + "</style>" + "</head><body onload='window.print();window.close()'>");
             printPage.document.write("<pre>");
-            printPage.document.write(value);
+            printPage.document.write(getText());
             printPage.document.write("</pre>");
             printPage.document.close("</body></html>");
         }
