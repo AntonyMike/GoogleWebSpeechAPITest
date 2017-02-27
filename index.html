@@ -94,9 +94,9 @@
                     for (var i = 0; i < event.results[len].length; i++) {
                         var text = event.results[len][i].transcript;
                         if (final == 0) {
-                            $(".select:eq(" + i + ")").append($("<option></option>").prop("value", text).text(text));
+                            $(".select:eq(" + len + ")").append($("<option></option>").prop("value", text).text(text));
                         } else {
-                            $(".select:eq(" + (i + final + 1) + ")").append($("<option></option>").prop("value", text).text(text));
+                            $(".select:eq(" + (len + final + 1) + ")").append($("<option></option>").prop("value", text).text(text));
                         }
                     }
                 }
