@@ -85,7 +85,7 @@
                         if ($("select").length == 1 && len == 0) {
                             $(".select:eq(0)").append($("<option></option>").prop("value", text).text(text));
                         } else {
-                            $(".select:eq(" + (len + $("select").length) + ")").append($("<option></option>").prop("value", text).text(text));
+                            $(".select:eq(" + (len + $("select").length -2) + ")").append($("<option></option>").prop("value", text).text(text));
                         }
                     }
                 }
