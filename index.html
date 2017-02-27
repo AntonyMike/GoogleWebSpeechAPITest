@@ -116,12 +116,12 @@
         }
 
         function btnStateClick() {
-            if ($("btnState").val() == "開始辨識") {
+            if ($("#btnState").val() == "開始辨識") {
                 start();
-                $("btnState").prop("value", "停止辨識");
+                $("#btnState").prop("value", "停止辨識");
             } else {
                 reset();
-                $("btnState").prop("value", "開始辨識");
+                $("#btnState").prop("value", "開始辨識");
             }
         }
 
