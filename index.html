@@ -129,8 +129,10 @@
         }
 
         function clearLastItem() {
-            final--;
             var num = $(".select").length;
+            if (!recognizing) {
+                final--;
+            }
             $(".spEnd").remove();
             if (num > 1) {
                 $(".select:last-child").remove();
