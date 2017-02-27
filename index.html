@@ -11,7 +11,9 @@
     <button id="btnState" onclick="btnStateClick();">開始辨識</button>
     <button id="btnClearLast" onclick="clearLast()" disabled="disable">清除最後一項</button>
     <button id="btnClearAll" onclick="clearAll()" disabled="disable">全部清除</button>
-    <h4>辨識的結果會顯示在下方選單：</h4> <span id="spResult"></span>
+    <button id="btnPrint" onclick="print()" disabled="disable">列印</button>
+    <h4>辨識的結果會顯示在下方選單：</h4>
+    <span id="spResult"></span>
     <script type="text/javascript">
         var len = 0; //語音辨識陣列長度
         var temp = 0; //暫存語音辨識陣列長度
@@ -22,17 +24,19 @@
         recognition.continuous = true; //及時辨識
         recognition.interimResults = true; //是否顯示中間辨識結果
         recognition.lang = "cmn-Hant-TW"; //語言:中文(台灣)
-        recognition.onstart = function() {
+        recognition.onstart = function () {
             console.log('開始辨識...');
+            document.getElementById('btnPrint').disabled = true;
         }
-        recognition.onend = function() {
+        recognition.onend = function () {
             console.log('停止辨識!');
             final += temp;
             temp = 0;
             document.getElementById("spResult").innerHTML += "<span class='spEnd'>" + " 。" + "</span>";
+            document.getElementById('btnPrint').disabled = false;
         };
         recognition.maxAlternatives = 10; //最大辨識結果長度
-        recognition.onresult = function(event) {
+        recognition.onresult = function (event) {
             len = event.resultIndex;
             console.log(len);
             console.log(event.results);
@@ -126,6 +130,17 @@
             $(".spEnd").remove();
             document.getElementById('btnClearLast').disabled = true;
             document.getElementById('btnClearAll').disabled = true;
+        }
+
+        function print() {
+            var value = document.getElementById("spResult").innerHTML;
+            var printPage = window.open("", "Printing...", "");
+            printPage.document.open();
+            printPage.document.write("<HTML><head></head><BODY onload='window.print();window.close()'>");
+            printPage.document.write("<PRE>");
+            printPage.document.write(value);
+            printPage.document.write("</PRE>");
+            printPage.document.close("</BODY></HTML>");
         }
     </script>
 </body>
