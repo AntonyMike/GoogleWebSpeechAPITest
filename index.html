@@ -49,9 +49,6 @@
         }
         recognition.onend = function() {
             console.log("停止辨識!");
-            console.log("len: " + len);
-            console.log("temp: " + temp);
-            console.log("final: " + final);
             if (temp == 0 && $("select").length == 1) {
                 final = 1;
             } else {
@@ -62,14 +59,15 @@
                 $("#spResult").append("<span class='spEnd'>" + " 。" + "</span>");
                 $("#btnPrint").prop("disabled", false);
             }
+
+            console.log("len: " + len);
+            console.log("temp: " + temp);
+            console.log("final: " + final);
         };
         recognition.maxAlternatives = 10; //最大辨識結果長度
         recognition.onresult = function(event) {
             len = event.resultIndex;
             console.log("onresult");
-            console.log("len: " + len);
-            console.log("temp: " + temp);
-            console.log("final: " + final);
             console.log(event.results);
             if ($("select").length != 0) {
                 $("#btnClearLastItem").prop("disabled", false);
@@ -105,6 +103,10 @@
                 _isFirstResult = true;
                 temp++;
             }
+
+            console.log("len: " + len);
+            console.log("temp: " + temp);
+            console.log("final: " + final);
         }
 
         function reset() {
