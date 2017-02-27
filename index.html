@@ -17,6 +17,7 @@
             background-color: yellow;
             -webkit-print-color-adjust: exact;
         }
+
     </style>
 </head>
 
@@ -85,7 +86,7 @@
                         if ($("select").length == 1) {
                             $(".select:eq(0)").append($("<option></option>").prop("value", text).text(text));
                         } else {
-                            $(".select:eq(" + (len + $("select").length - 1) + ")").append($("<option></option>").prop("value", text).text(text));
+                            $(".select:eq(" + (len + $("select").length) + ")").append($("<option></option>").prop("value", text).text(text));
                         }
                     }
                 }
@@ -173,6 +174,7 @@
             printPage.document.write("</pre>");
             printPage.document.close("</body></html>");
         }
+
     </script>
 </body>
 
