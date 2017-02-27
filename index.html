@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <title>Google Web Speech API Test </title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <style>
+        /*列印時 <body>, <pre> 之 css 需相同*/
+        body {
+            background-color: lightblue;
+            -webkit-print-color-adjust: exact;
+        }
+        
+        #print_parts {
+            background-color: yellow;
+            -webkit-print-color-adjust: exact;
+        }        
+    </style>
 </head>
 
 <body>
@@ -13,7 +25,9 @@
     <button id="btnClearAll" onclick="clearAll()" disabled="disable">全部清除</button>
     <button id="btnPrint" onclick="print()" disabled="disable">列印</button>
     <h4>辨識的結果會顯示在下方選單：</h4>
-    <span id="spResult"></span>
+    <div id="print_parts">
+        <span id="spResult"></span>
+    </div>
     <script type="text/javascript">
         var len = 0; //語音辨識陣列長度
         var temp = 0; //暫存語音辨識陣列長度
@@ -133,14 +147,16 @@
         }
 
         function print() {
-            var value = document.getElementById("spResult").innerHTML;
+            var value = document.getElementById("print_parts").innerHTML;
             var printPage = window.open("", "Printing...", "");
             printPage.document.open();
-            printPage.document.write("<HTML><head></head><BODY onload='window.print();window.close()'>");
-            printPage.document.write("<PRE>");
+            printPage.document.write("<html><head>" + "<style>body{background-color: lightblue;-webkit-print-color-adjust: exact;}" 
+                                     + "pre {background-color: yellow;-webkit-print-color-adjust: exact;}" + "</style>" 
+                                     + "</head><body onload='window.print();window.close()'>");
+            printPage.document.write("<pre>");
             printPage.document.write(value);
-            printPage.document.write("</PRE>");
-            printPage.document.close("</BODY></HTML>");
+            printPage.document.write("</pre>");
+            printPage.document.close("</body></html>");
         }
     </script>
 </body>
