@@ -32,6 +32,7 @@
     <script type="text/javascript">
         var len = 0; //語音辨識陣列長度
         var temp = 0; //暫存語音辨識陣列長度
+        var final = 0; //儲存總辨識長度
         var _isFirstResult = true;
         var recognizing;
         var recognition = new webkitSpeechRecognition();
@@ -41,8 +42,10 @@
         recognition.onstart = function() {
             console.log("開始辨識...");
             $("#btnPrint").prop("disabled", true);
+            final = $("select").length;
             console.log("len: " + len);
             console.log("temp: " + temp);
+            console.log("final: " + final);
         }
         recognition.onend = function() {
             console.log("停止辨識!");
@@ -53,6 +56,7 @@
             }
             console.log("len: " + len);
             console.log("temp: " + temp);
+            console.log("final: " + final);
         };
         recognition.maxAlternatives = 10; //最大辨識結果長度
         recognition.onresult = function(event) {
@@ -82,11 +86,7 @@
                 if (event.results[len].isFinal) {
                     for (var i = 0; i < event.results[len].length; i++) {
                         var text = event.results[len][i].transcript;
-                        if ($("select").length == 1 && len == 0) {
-                            $(".select:eq(0)").append($("<option></option>").prop("value", text).text(text));
-                        } else {
-                            $(".select:eq(" + (len + $("select").length -2) + ")").append($("<option></option>").prop("value", text).text(text));
-                        }
+                        $(".select:eq(" + (len + final) + ")").append($("<option></option>").prop("value", text).text(text));
                     }
                 }
             } else {
@@ -96,6 +96,7 @@
 
             console.log("len: " + len);
             console.log("temp: " + temp);
+            console.log("final: " + final);
         }
 
         function reset() {
