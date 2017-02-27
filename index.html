@@ -66,6 +66,7 @@
         recognition.maxAlternatives = 10; //最大辨識結果長度
         recognition.onresult = function(event) {
             len = event.resultIndex;
+            console.log("onresult");
             console.log("len: " + len);
             console.log("temp: " + temp);
             console.log("final: " + final);
