@@ -128,13 +128,13 @@
 
         function clearLast() {
             var num = $(".select").length;
+            $(".spEnd").remove();
             if (num > 1) {
                 $("span .select:last-child").remove();
                 $("span .spComma:last-child").remove();
+                document.getElementById("spResult").innerHTML += "<span class='spEnd'>" + " 。" + "</span>";
             } else if (num == 1) {
                 $("span .select:last-child").remove();
-                $("span .spComma:last-child").remove();
-                $(".spEnd").remove();
                 document.getElementById('btnClearLast').disabled = true;
                 document.getElementById('btnClearAll').disabled = true;
             } else {
