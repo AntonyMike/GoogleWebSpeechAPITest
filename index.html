@@ -66,6 +66,8 @@
             console.log("len: " + len);
             console.log("temp: " + temp);
             console.log("final: " + final);
+            console.log("res: " + res);
+            console.log("resTemp: " + resTemp);
         }
         recognition.onend = function () {
             console.log("停止辨識!");
@@ -88,6 +90,8 @@
             console.log("len: " + len);
             console.log("temp: " + temp);
             console.log("final: " + final);
+            console.log("res: " + res);
+            console.log("resTemp: " + resTemp);
         };
         recognition.maxAlternatives = 10; //最大辨識結果長度
         recognition.onresult = function (event) {
@@ -144,6 +148,8 @@
             console.log("len: " + len);
             console.log("temp: " + temp);
             console.log("final: " + final);
+            console.log("res: " + res);
+            console.log("resTemp: " + resTemp);
         }
 
         function start() {
