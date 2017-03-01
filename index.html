@@ -35,6 +35,7 @@
         var len = 0; //語音辨識陣列長度
         var temp = 0; //暫存語音辨識陣列長度
         var final = 0; //儲存總辨識長度
+        var res = ""; //儲存最佳辨識結果
         var _isFirstResult = true;
         var recognizing;
         var recognition = new webkitSpeechRecognition();
@@ -96,11 +97,12 @@
                         var text = event.results[len][i].transcript;
                         $(".select:eq(" + (len + final) + ")").append($("<option></option>").prop("value", text).text(text));
                     }
+                    res += "<span class='spComma'>" + " ， " + "</span>";
                 } else {
                     var text = event.results[len][0].transcript;
                     $(".select:eq(" + (len + final) + ")").html($("<option></option>").prop("value", text).text(text));
-                    var res = text;
-                    $("#spBestResult").text(res);
+                    res += "<span>" + text + "</span>";
+                    $("#spBestResult").html(res);
                 }
             } else {
                 _isFirstResult = true;
