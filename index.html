@@ -49,6 +49,9 @@
         }
         recognition.onend = function () {
             console.log("停止辨識!");
+            recognizing = false;
+            _isFirstResult = true;
+            $("#btnState").prop("value", "開始辨識");
             final = $("select").length;
             temp = 0;
             if ($("select").length != 0) {
@@ -103,13 +106,6 @@
             console.log("final: " + final);
         }
 
-        function reset() {
-            recognition.stop();
-            recognizing = false;
-            _isFirstResult = true;
-            $("#btnState").prop("value", "開始辨識");
-        }
-
         function start() {
             recognition.start();
             recognizing = true;
@@ -120,8 +116,7 @@
                 start();
                 $("#btnState").prop("value", "停止辨識");
             } else {
-                reset();
-                $("#btnState").prop("value", "開始辨識");
+                recognition.stop();
             }
         }
 
