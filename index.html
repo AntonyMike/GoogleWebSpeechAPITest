@@ -65,6 +65,12 @@
                 $("#spResult").append("<span class='spEnd'>" + " 。" + "</span>");
                 $("#btnPrint").prop("disabled", false);
             }
+
+            if (resTemp != "") {
+                $("#spBestResult .spComma:last-child").remove();
+                $("#spBestResult").append("<span class='spEnd'>" + " 。" + "</span>");
+            }
+
             console.log("len: " + len);
             console.log("temp: " + temp);
             console.log("final: " + final);
@@ -95,6 +101,7 @@
                     }
                 }
                 if (event.results[len].isFinal) {
+                    $(".select:eq(" + (len + final) + ")").empty();
                     for (var i = 0; i < event.results[len].length; i++) {
                         var text = event.results[len][i].transcript;
                         $(".select:eq(" + (len + final) + ")").append($("<option></option>").prop("value", text).text(text));
