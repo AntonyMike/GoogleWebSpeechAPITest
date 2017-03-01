@@ -108,6 +108,7 @@
                         $("#spResult").append("<select class='select'>" + "</select>");
                     }
                 }
+
                 if (event.results[len].isFinal) {
                     $(".select:eq(" + (len + final) + ")").empty();
                     for (var i = 0; i < event.results[len].length; i++) {
@@ -122,6 +123,10 @@
                     var text = event.results[len][0].transcript;
                     $(".select:eq(" + (len + final) + ")").html($("<option></option>").prop("value", text).text(text));
 
+                    if ($("#spBestResult :has($('.spEnd'))")) {
+                        $(".spEnd").remove();
+                        resTemp = $("#spBestResult").html() + "<span class='spComma'>" + " ， " + "</span>";
+                    }
                     res = "<span class='bestRes'>" + text + "</span>";
                     $("#spBestResult").html(resTemp + res);
                 }
