@@ -26,7 +26,8 @@
     <input type="button" id="btnClearAll" value="全部清除" onclick="clearAll()" disabled="disable">
     <input type="button" id="btnPrint" value="列印" onclick="print()" disabled="disable">
     <h4>狀態：<span id="spState"></span></h4>
-    <h4>最佳即時辯識結果：<span id="spBestResult"></h4>
+    <h4>最佳即時辯識結果：</h4>
+    <span id="spBestResult">
     <h4>辨識的全部結果會顯示在下方選單：</h4>
     <div id="print_parts">
         <span id="spResult"></span>
@@ -36,6 +37,7 @@
         var temp = 0; //暫存語音辨識陣列長度
         var final = 0; //儲存總辨識長度
         var res = ""; //儲存最佳辨識結果
+        var resTemp = ""; //暫存最佳辨識結果
         var _isFirstResult = true;
         var recognizing;
         var recognition = new webkitSpeechRecognition();
@@ -97,12 +99,16 @@
                         var text = event.results[len][i].transcript;
                         $(".select:eq(" + (len + final) + ")").append($("<option></option>").prop("value", text).text(text));
                     }
+
                     res += "<span class='spComma'>" + " ， " + "</span>";
+                    resTemp = res;
+                    $("#spBestResult").html(resTemp);
                 } else {
                     var text = event.results[len][0].transcript;
                     $(".select:eq(" + (len + final) + ")").html($("<option></option>").prop("value", text).text(text));
-                    res += "<span>" + text + "</span>";
-                    $("#spBestResult").html(res);
+
+                    res = "<span>" + text + "</span>";
+                    $("#spBestResult").html(resTemp + res);
                 }
             } else {
                 _isFirstResult = true;
