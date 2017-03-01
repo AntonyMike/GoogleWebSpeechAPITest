@@ -27,7 +27,7 @@
     <input type="button" id="btnPrint" value="列印" onclick="print()" disabled="disable">
     <h4>狀態：<span id="spState"></span></h4>
     <h4>最佳即時辯識結果：</h4>
-    <span id="spBestResult">
+    <span id="spBestResult"></span>
     <h4>辨識的全部結果會顯示在下方選單：</h4>
     <div id="print_parts">
         <span id="spResult"></span>
@@ -101,7 +101,7 @@
                     }
 
                     res += "<span class='spComma'>" + " ， " + "</span>";
-                    resTemp = res;
+                    resTemp += res;
                     $("#spBestResult").html(resTemp);
                 } else {
                     var text = event.results[len][0].transcript;
