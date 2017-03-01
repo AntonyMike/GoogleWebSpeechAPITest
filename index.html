@@ -123,7 +123,7 @@
                     var text = event.results[len][0].transcript;
                     $(".select:eq(" + (len + final) + ")").html($("<option></option>").prop("value", text).text(text));
 
-                    if ($("#spBestResult :has($('.spEnd'))")) {
+                    if ($("#spBestResult :has('.spEnd')")) {
                         $(".spEnd").remove();
                         resTemp = $("#spBestResult").html() + "<span class='spComma'>" + " ， " + "</span>";
                     }
