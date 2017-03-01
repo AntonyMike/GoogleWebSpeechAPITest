@@ -99,7 +99,7 @@
                 } else {
                     var text = event.results[len][0].transcript;
                     $(".select:eq(" + (len + final) + ")").html($("<option></option>").prop("value", text).text(text));
-                    var res += text;
+                    var res = text;
                     $("#spBestResult").text(res);
                 }
             } else {
