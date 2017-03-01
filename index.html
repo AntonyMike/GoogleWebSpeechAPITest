@@ -220,7 +220,7 @@
         function print() { //列印
             var printPage = window.open("", "Printing...", "");
             printPage.document.open();
-            printPage.document.write("<html><head>" + "<style>body{background-color: lightblue;-webkit-print-color-adjust: exact;}" + "pre {background-color: red;-webkit-print-color-adjust: exact;}" + "span {background-color: yellow;-webkit-print-color-adjust: exact;}" + "</style>" + "</head><body onload='window.print();window.close()'>");
+            printPage.document.write("<html><head>" + "<style>body{background-color: lightblue;-webkit-print-color-adjust: exact;}" + "span {background-color: yellow;-webkit-print-color-adjust: exact;}" + "</style>" + "</head><body onload='window.print();window.close()'>");
             printPage.document.write("<pre>");
             printPage.document.write("<span>" + getText() + "</span>");
             printPage.document.write("</pre>");
