@@ -57,12 +57,12 @@
             $("#btnPrint").prop("disabled", true);
             $("#spState").text("辨識中!");
             final = $("select").length;
-            
+
             if ($("#spBestResult :has('.spEnd')")) {
                 $(".spEnd").remove();
                 resTemp = $("#spBestResult").html() + "<span class='spComma'>" + " ， " + "</span>";
             }
-            
+
             console.log("len: " + len);
             console.log("temp: " + temp);
             console.log("final: " + final);
@@ -122,9 +122,13 @@
                         $(".select:eq(" + (len + final) + ")").append($("<option></option>").prop("value", text).text(text));
                     }
 
-                    res += "<span class='spComma'>" + " ， " + "</span>";
-                    resTemp += res;
-                    $("#spBestResult").html(resTemp);
+                    if ($("#spBestResult").html() == "") {
+                        $("#spBestResult").html(res);
+                    } else {
+                        res += "<span class='spComma'>" + " ， " + "</span>";
+                        resTemp += res;
+                        $("#spBestResult").html(resTemp);
+                    }
                 } else {
                     var text = event.results[len][0].transcript;
                     $(".select:eq(" + (len + final) + ")").html($("<option></option>").prop("value", text).text(text));
