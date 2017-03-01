@@ -17,7 +17,6 @@
             background-color: yellow;
             -webkit-print-color-adjust: exact;
         }
-
     </style>
 </head>
 
@@ -40,7 +39,7 @@
         recognition.continuous = true; //及時辨識
         recognition.interimResults = true; //是否顯示中間辨識結果
         recognition.lang = "cmn-Hant-TW"; //語言:中文(台灣)
-        recognition.onstart = function() {
+        recognition.onstart = function () {
             console.log("開始辨識...");
             $("#btnPrint").prop("disabled", true);
             final = $("select").length;
@@ -48,7 +47,7 @@
             console.log("temp: " + temp);
             console.log("final: " + final);
         }
-        recognition.onend = function() {
+        recognition.onend = function () {
             console.log("停止辨識!");
             final = $("select").length;
             temp = 0;
@@ -61,7 +60,7 @@
             console.log("final: " + final);
         };
         recognition.maxAlternatives = 10; //最大辨識結果長度
-        recognition.onresult = function(event) {
+        recognition.onresult = function (event) {
             len = event.resultIndex;
             console.log("onresult");
             console.log(event.results);
@@ -90,6 +89,9 @@
                         var text = event.results[len][i].transcript;
                         $(".select:eq(" + (len + final) + ")").append($("<option></option>").prop("value", text).text(text));
                     }
+                } else {
+                    var text = event.results[len][0].transcript;
+                    $(".select:eq(" + (len + final) + ")").html($("<option></option>").prop("value", text).text(text));
                 }
             } else {
                 _isFirstResult = true;
@@ -180,7 +182,6 @@
             printPage.document.write("</pre>");
             printPage.document.close("</body></html>");
         }
-
     </script>
 </body>
 
