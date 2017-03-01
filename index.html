@@ -6,7 +6,10 @@
     <title>Google Web Speech API Test </title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <style>
-        /*列印時 <body>, <pre> 之 css 需相同*/
+        /*
+           列印時 <body>, <pre> 之 css 需相同
+           -webkit-print-color-adjust: exact --> 讓chrome可列印背景圖
+        */
         
         body {
             background-color: lightblue;
@@ -14,6 +17,11 @@
         }
         
         #print_parts {
+            background-color: yellow;
+            -webkit-print-color-adjust: exact;
+        }
+        
+        #spBestResult {
             background-color: yellow;
             -webkit-print-color-adjust: exact;
         }
@@ -40,8 +48,8 @@
         var resTemp = ""; //暫存最佳辨識結果
         var _isFirstResult = true;
         var recognizing;
-        var recognition = new webkitSpeechRecognition();
-        recognition.continuous = true; //及時辨識
+        var recognition = new webkitSpeechRecognition(); //套用chrome語音辨識API
+        recognition.continuous = true; //即時辨識
         recognition.interimResults = true; //是否顯示中間辨識結果
         recognition.lang = "cmn-Hant-TW"; //語言:中文(台灣)
         recognition.onstart = function () {
@@ -114,7 +122,7 @@
                     var text = event.results[len][0].transcript;
                     $(".select:eq(" + (len + final) + ")").html($("<option></option>").prop("value", text).text(text));
 
-                    res = "<span>" + text + "</span>";
+                    res = "<span class='bestRes'>" + text + "</span>";
                     $("#spBestResult").html(resTemp + res);
                 }
             } else {
@@ -145,11 +153,14 @@
             var num = $(".select").length;
             $(".spEnd").remove();
             if (num > 1) {
+                $(".bestRes:last-child").remove();
                 $(".select:last-child").remove();
-                $(".spComma:last-child").remove();
+                $("#spResult .spComma:last-child").remove();
+                $("#spBestResult .spComma:last-child").remove();
             } else if (num == 1) {
-                $("#btnPrint").prop("disabled", true);
+                $(".bestRes:last-child").remove();
                 $(".select:last-child").remove();
+                $("#btnPrint").prop("disabled", true);
                 $("#btnClearLastItem").prop("disabled", true);
                 $("#btnClearAll").prop("disabled", true);
             } else {
@@ -159,14 +170,19 @@
             }
             if (!recognizing) {
                 $("#spResult").append("<span class='spEnd'>" + " 。" + "</span>");
+                $("#spBestResult").append("<span class='spEnd'>" + " 。" + "</span>");
             }
             final = $("select").length;
+            resTemp = $("#spBestResult").html();
         }
 
         function clearAll() {
             temp = 0;
             final = 0;
+            res = "";
+            resTemp = "";
             $(".select").remove();
+            $(".bestRes").remove();
             $(".spComma").remove();
             $(".spEnd").remove();
             $("#btnClearLastItem").prop("disabled", true);
