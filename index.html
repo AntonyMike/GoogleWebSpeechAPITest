@@ -7,8 +7,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <style>
         /*
-           列印時 <body>, <pre> 之 css 需相同
-           -webkit-print-color-adjust: exact --> 讓chrome可列印背景圖
+            列印時 <body>, <pre> 之 css 需相同
+            -webkit-print-color-adjust: exact --> 讓chrome可列印背景圖
+            print_parts --> 指定列印區塊
         */
         
         body {
@@ -17,11 +18,16 @@
         }
         
         #print_parts {
-            background-color: yellow;
+            /*            background-color: yellow;*/
             -webkit-print-color-adjust: exact;
         }
         
         #spBestResult {
+            background-color: yellow;
+            -webkit-print-color-adjust: exact;
+        }
+        
+        #spResult {
             background-color: yellow;
             -webkit-print-color-adjust: exact;
         }
@@ -34,12 +40,12 @@
     <input type="button" id="btnClearAll" value="全部清除" onclick="clearAll()" disabled="disable">
     <input type="button" id="btnPrint" value="列印" onclick="print()" disabled="disable">
     <h4>狀態：<span id="spState"></span></h4>
-    <h4>最佳即時辯識結果：</h4>
-    <span id="spBestResult"></span>
-    <h4>辨識的全部結果會顯示在下方選單：</h4>
+    <h4>即時辯識結果：</h4>
     <div id="print_parts">
-        <span id="spResult"></span>
+        <span id="spBestResult"></span>
     </div>
+    <h4>所有辨識結果：</h4>
+    <span id="spResult"></span>
     <script type="text/javascript">
         var len = 0; //語音辨識陣列長度
         var temp = 0; //暫存語音辨識陣列長度
@@ -52,7 +58,7 @@
         recognition.continuous = true; //即時辨識
         recognition.interimResults = true; //是否顯示中間辨識結果
         recognition.lang = "cmn-Hant-TW"; //語言:中文(台灣)
-        recognition.onstart = function () {
+        recognition.onstart = function () { //開始辨識
             console.log("開始辨識...");
             $("#btnPrint").prop("disabled", true);
             $("#spState").text("辨識中!");
@@ -61,12 +67,12 @@
             if ($("#spBestResult :has('.spEnd')").length > 0) {
                 $(".spEnd").remove();
                 resTemp = $("#spBestResult").html() + "<span class='spComma'>" + " ， " + "</span>";
-            } 
+            }
             console.log("len: " + len);
             console.log("temp: " + temp);
             console.log("final: " + final);
         }
-        recognition.onend = function () {
+        recognition.onend = function () { //結束辨識
             console.log("停止辨識!");
             $("#spState").text("停止辨識!");
             recognizing = false;
@@ -89,7 +95,7 @@
             console.log("final: " + final);
         };
         recognition.maxAlternatives = 10; //最大辨識結果長度
-        recognition.onresult = function (event) {
+        recognition.onresult = function (event) { //有辨識結果時
             len = event.resultIndex;
             console.log("onresult");
             console.log(event.results);
@@ -145,21 +151,17 @@
             console.log("final: " + final);
         }
 
-        function start() {
-            recognition.start();
-            recognizing = true;
-        }
-
         function btnStateClick() {
             if ($("#btnState").val() == "開始辨識") {
-                start();
+                recognition.start();
+                recognizing = true;
                 $("#btnState").prop("value", "停止辨識");
             } else {
                 recognition.stop();
             }
         }
 
-        function clearLastItem() {
+        function clearLastItem() { //清除最後一項
             var num = $(".select").length;
             $(".spEnd").remove();
             if (num > 1) {
@@ -186,7 +188,7 @@
             resTemp = $("#spBestResult").html();
         }
 
-        function clearAll() {
+        function clearAll() { //全部清除
             temp = 0;
             final = 0;
             res = "";
@@ -200,7 +202,7 @@
             $("#btnPrint").prop("disabled", true);
         }
 
-        function getText() {
+        function getText() { //取得所有選單選中項文字
             var text = "";
             for (var i = 0; i < $("select").length; i++) {
                 if (i == $("select").length - 1) {
@@ -215,12 +217,13 @@
             return text;
         }
 
-        function print() {
+        function print() { //列印
             var printPage = window.open("", "Printing...", "");
             printPage.document.open();
-            printPage.document.write("<html><head>" + "<style>body{background-color: lightblue;-webkit-print-color-adjust: exact;}" + "pre {background-color: yellow;-webkit-print-color-adjust: exact;}" + "</style>" + "</head><body onload='window.print();window.close()'>");
+            printPage.document.write("<html><head>" + "<style>body{background-color: lightblue;-webkit-print-color-adjust: exact;}" + "pre {background-color: red;-webkit-print-color-adjust: exact;}" + "span {background-color: yellow;-webkit-print-color-adjust: exact;}" +
+                +"</style>" + "</head><body onload='window.print();window.close()'>");
             printPage.document.write("<pre>");
-            printPage.document.write(getText());
+            printPage.document.write("<span>" + getText() + "</span>");
             printPage.document.write("</pre>");
             printPage.document.close("</body></html>");
         }
