@@ -23,17 +23,32 @@
 </head>
 
 <body>
-    <input type="button" id="btnState" value="開始辨識" onclick="btnStateClick()">
-    <input type="button" id="btnClearLastItem" value="清除最後一項" onclick="clearLastItem()" disabled="disable">
-    <input type="button" id="btnClearAll" value="全部清除" onclick="clearAll()" disabled="disable">
-    <input type="button" id="btnPrint" value="列印" onclick="print()" disabled="disable">
-    <h4>狀態：<span id="spState"></span></h4>
-    <h4>即時辯識結果：</h4>
-    <div id="print_parts">
-        <span id="spBestResult" class="bgY"></span>
+    <div>
+        <input type="button" id="btnState" value="開始辨識" onclick="btnStateClick()">
+        <div>
+            <h4>即時辯識結果：</h4>
+            <div id="print_parts">
+                <span id="spBestResult" class=".bgY"></span>
+            </div>
+        </div>
     </div>
-    <h4>所有辨識結果：</h4>
-    <span id="spResult" class="bgY"></span>
+    <br>
+    <hr>
+    <br>
+    <div>
+        <div>
+            <input type="button" id="btnClearLastItem" value="清除最後一項" onclick="clearLastItem()" disabled="disable">
+            <input type="button" id="btnClearAll" value="全部清除" onclick="clearAll()" disabled="disable">
+            <input type="button" id="btnPrint" value="列印" onclick="print()" disabled="disable">
+        </div>
+        <div>
+            <h4>所有辨識結果：</h4>
+            <span id="spResult" class=".bgY"></span>
+        </div>
+    </div>
+
+    <!------------------------javascript------------------------>
+
     <script type="text/javascript">
         var len = 0; //語音辨識陣列長度
         var temp = 0; //暫存語音辨識陣列長度
@@ -46,10 +61,12 @@
         recognition.continuous = true; //即時辨識
         recognition.interimResults = true; //是否顯示中間辨識結果
         recognition.lang = "cmn-Hant-TW"; //語言:中文(台灣)
-        recognition.onstart = function () { //開始辨識
+        recognition.maxAlternatives = 10; //最大辨識結果長度
+
+        /*--------------語音辨識: 開始辨識-------------*/
+        recognition.onstart = function () {
             console.log("開始辨識...");
             $("#btnPrint").prop("disabled", true);
-            $("#spState").text("辨識中!");
             final = $("select").length;
 
             if ($("#spBestResult :has('.spEnd')").length > 0) {
@@ -60,9 +77,10 @@
             console.log("temp: " + temp);
             console.log("final: " + final);
         }
-        recognition.onend = function () { //結束辨識
+
+        /*--------------語音辨識: 結束辨識-------------*/
+        recognition.onend = function () {
             console.log("停止辨識!");
-            $("#spState").text("停止辨識!");
             recognizing = false;
             _isFirstResult = true;
             $("#btnState").prop("value", "開始辨識");
@@ -82,8 +100,10 @@
             console.log("temp: " + temp);
             console.log("final: " + final);
         };
-        recognition.maxAlternatives = 10; //最大辨識結果長度
-        recognition.onresult = function (event) { //有辨識結果時
+
+
+        /*--------------語音辨識: 有辨識結果時-------------*/
+        recognition.onresult = function (event) {
             len = event.resultIndex;
             console.log("onresult");
             console.log(event.results);
@@ -139,6 +159,7 @@
             console.log("final: " + final);
         }
 
+        /*------------開始.結束辨識按鈕----------*/
         function btnStateClick() {
             if ($("#btnState").val() == "開始辨識") {
                 recognition.start();
@@ -149,14 +170,15 @@
             }
         }
 
-        function clearLastItem() { //清除最後一項
+        /*-----------清除最後一項-------------*/
+        function clearLastItem() {
             var num = $(".select").length;
             $(".spEnd").remove();
             if (num > 1) {
                 $(".bestRes:last-child").remove();
+                $("#spBestResult .spComma:last-child").remove();
                 $(".select:last-child").remove();
                 $("#spResult .spComma:last-child").remove();
-                $("#spBestResult .spComma:last-child").remove();
             } else if (num == 1) {
                 $(".bestRes:last-child").remove();
                 $(".select:last-child").remove();
@@ -176,7 +198,8 @@
             resTemp = $("#spBestResult").html();
         }
 
-        function clearAll() { //全部清除
+        /*---------------全部清除---------------*/
+        function clearAll() {
             temp = 0;
             final = 0;
             res = "";
@@ -190,7 +213,8 @@
             $("#btnPrint").prop("disabled", true);
         }
 
-        function getText() { //取得所有選單選中項文字
+        /*------------取得所有選單選中項文字----------*/
+        function getText() {
             var text = "";
             for (var i = 0; i < $("select").length; i++) {
                 if (i == $("select").length - 1) {
@@ -205,7 +229,8 @@
             return text;
         }
 
-        function print() { //列印
+        /*------------------列印----------------*/
+        function print() {
             var printPage = window.open("", "Printing...", "");
             printPage.document.open();
             printPage.document.write("<html><head>" + "<style>body{background-color: lightblue;-webkit-print-color-adjust: exact;}" + "span {background-color: yellow;-webkit-print-color-adjust: exact;}" + "</style>" + "</head><body onload='window.print();window.close()'>");
